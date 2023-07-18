@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Página de Películas</a>
+            <!-- Menú de navegación aquí -->
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- Barra lateral con opciones de filtro -->
+                <h4>Filtrar por Género</h4>
+                <ul class="list-group">
+                    <li class="list-group-item">Acción</li>
+                    <li class="list-group-item">Comedia</li>
+                    <li class="list-group-item">Drama</li>
+                    <!-- Otras opciones de género -->
+                </ul>
+            </div>
+            <div class="col-md-9">
+                <!-- Contenedor de la película -->
+                <div id="movie-container"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-white text-center py-3">
+        <!-- Contenido del pie de página -->
+    </footer>
+
+    <script src="/script.js"></script> <!-- Archivo JavaScript para la lógica de la API -->
+</body>
+</html>
