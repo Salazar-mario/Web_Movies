@@ -1,0 +1,44 @@
+/* Estilo para el cursor de puntero */
+.list-group-item {
+    cursor: pointer;
+}
+
+/* Estilo para la barra lateral de géneros */
+.genres-container {
+    display: flex; /* Muestra los elementos en una línea horizontal */
+    overflow-x: auto; /* Hace que los elementos sean desplazables horizontalmente si no caben en la pantalla */
+    white-space: nowrap; /* Evita que los elementos se rompan en varias líneas */
+}
+
+.genre-item {
+    cursor: pointer;
+    margin-right: 10px; /* Espacio entre los elementos de género */
+}
+
+/* Estilo para la lista de películas */
+#movies-list {
+    display: flex; /* Muestra las películas en una línea horizontal */
+    flex-wrap: wrap; /* Permite que las películas se envuelvan a la siguiente línea si no caben */
+    justify-content: space-between; /* Espacio entre las tarjetas de película */
+}
+
+.list-group-item {
+    margin-right: 10px; /* Espacio entre las películas */
+}
+
+/* Estilo para el contenedor de la imagen de la película */
+.movie-image {
+    width: 150px; /* Ancho de la imagen */
+    overflow: hidden; /* Evita que la imagen se desborde fuera del contenedor */
+}
+
+.movie-image img {
+    width: 100%; /* Ajustar la imagen al ancho del contenedor */
+    height: auto; /* Ajustar la altura proporcionalmente */
+}
+
+/* Estilo para las tarjetas de película */
+.movie-card {
+    width: calc(33.333333% - 20px); /* Ancho de cada card, ocupando 33.33% del espacio disponible en la fila */
+    margin: 10px; /* Espacio entre las cards */
+}

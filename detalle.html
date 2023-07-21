@@ -1,20 +1,33 @@
-<!-- detalle_pelicula.html -->
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- Resto del código del encabezado -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
 </head>
 <body>
-    <!-- Contenedor de los detalles de la película -->
-    <div class="col-md-4">
-        <h3 id="movie-title"></h3>
-        <p id="movie-release-date"></p>
-        <p id="movie-overview"></p>
-        <div id="movie-cast"></div>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Página de Películas</a>
+            <!-- Menú de navegación aquí -->
+        </nav>
+    </header>
+
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 id="movie-title"></h2>
+                <p id="movie-release-date"></p>
+                <p id="movie-overview"></p>
+                <div id="movie-cast"></div>
+            </div>
+        </div>
     </div>
 
-
-    <!-- Resto del código del pie de página -->
+    <footer class="bg-dark text-white text-center py-3">
+        <!-- Contenido del pie de página -->
+    </footer>
 
     <script src="/detalle.js"></script> <!-- Archivo JavaScript para mostrar los detalles de la película -->
 </body>
