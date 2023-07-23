@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Obtener el ID de la película de la URL
     const urlParams = new URLSearchParams(window.location.search);
-    const movieId = urlParams.get('id');
+    const movieId = urlParams.get('movieId');
 
     fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&append_to_response=credits`)
         .then(response => response.json())
