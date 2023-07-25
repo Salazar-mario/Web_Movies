@@ -13,7 +13,7 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">Página de Películas</a>
+            <a class="navbar-brand" href="#">Buscador de Películas</a>
             <!-- Menú de navegación aquí -->
         </nav>
     </header>
@@ -25,20 +25,10 @@
     </div>
 
     <div class="container">
-        <div class="row">
-            <div class="col-md-3">
-                <!-- Barra lateral con opciones de filtro -->
-                <h4>Filtrar por Categorías</h4>
-                <ul class="list-group">
-                    <li class="list-group-item filter-item" data-category="popular">Popular</li>
-                    <li class="list-group-item filter-item" data-category="top_rated">Más valoradas</li>
-                    <li class="list-group-item filter-item" data-category="upcoming">Próximas</li>
-                    <!-- Otras opciones de categoría -->
-                </ul>
-            </div>
-            <div class="col-md-9">
+        <div class="row justify-content-center"> <!-- Agregamos la clase "justify-content-center" para centrar las tarjetas horizontalmente -->
+            <div class="col-md-12"> <!-- Cambiamos el ancho de la columna para ocupar toda la pantalla -->
                 <!-- Lista de películas -->
-                <div class="row" id="movies-list"></div> <!-- Cambio 'ul' por 'div' para contener las cards -->
+                <div class="d-flex flex-wrap" id="movies-list"></div> <!-- Cambio 'ul' por 'div' y agregamos las clases "d-flex" y "flex-wrap" para mostrar las películas en formato horizontal -->
             </div>
         </div>
     </div>
@@ -46,3 +36,5 @@
     <footer class="bg-dark text-white text-center py-3">
         <!-- Contenido del pie de página -->
     </footer>
+</body>
+</html>

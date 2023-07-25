@@ -5,9 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
     const movieId = urlParams.get('movieId');
 
-    fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&append_to_response=credits`)
+    fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}&language=es`)
         .then(response => response.json())
         .then(movie => {
+            // Obtener referencias a los elementos HTML en los que se mostrarán los detalles de la película
             const movieTitle = document.getElementById('movie-title');
             const movieReleaseDate = document.getElementById('movie-release-date');
             const movieOverview = document.getElementById('movie-overview');
@@ -29,21 +30,16 @@ document.addEventListener('DOMContentLoaded', () => {
             moviePoster.alt = `${movie.title} Poster`;
             movieCast.appendChild(moviePoster);
 
-            // Obtener el reparto de la película
-            const cast = movie.credits.cast;
-            let castList = '<p>Reparto: ';
-            for (let i = 0; i < cast.length; i++) {
-                castList += `${cast[i].name} (${cast[i].character})`;
-                if (i < cast.length - 1) {
-                    castList += ', ';
-                }
-            }
-            castList += '</p>';
-            movieCast.innerHTML += castList;
-
             // Agrega más detalles de la película si es necesario
         })
         .catch(error => {
             console.error('Error:', error);
         });
+});
+
+// Agregar un evento de clic al botón de regreso (`backButton`)
+const backButton = document.getElementById('back-to-home-button');
+backButton.addEventListener('click', () => {
+    // Redirigir a la página de inicio (cambia 'index.html' por el nombre de tu archivo de inicio)
+    window.location.href = 'index.html';
 });

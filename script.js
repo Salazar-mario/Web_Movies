@@ -12,44 +12,45 @@ document.addEventListener('DOMContentLoaded', () => {
                     const movies = data.results;
                     movies.forEach(movie => {
                         const movieCard = document.createElement('div');
-                        movieCard.classList.add('movie-card'); // Agregar la clase 'movie-card' para el estilo
+                        movieCard.classList.add('movie-card', 'card', 'm-2'); // Agregar clases 'movie-card', 'card', y 'm-2' para estilizar la card
 
                         // Contenedor de la imagen de la película
-                        const movieImageContainer = document.createElement('div');
-                        movieImageContainer.classList.add('movie-image');
                         const movieImage = document.createElement('img');
+                        movieImage.classList.add('card-img-top');
                         movieImage.src = `https://image.tmdb.org/t/p/w500${movie.poster_path}`; // Ruta de la imagen
                         movieImage.alt = movie.title;
-                        movieImageContainer.appendChild(movieImage);
-                        movieCard.appendChild(movieImageContainer);
+                        movieCard.appendChild(movieImage);
+
+                        // Cuerpo de la card
+                        const cardBody = document.createElement('div');
+                        cardBody.classList.add('card-body');
 
                         // Detalles de la película
-                        const movieDetails = document.createElement('div');
-                        movieDetails.classList.add('movie-details');
-                        const movieTitle = document.createElement('h3');
+                        const movieTitle = document.createElement('h5');
+                        movieTitle.classList.add('card-title');
                         movieTitle.textContent = movie.title;
+                        cardBody.appendChild(movieTitle);
+
                         const movieReleaseDate = document.createElement('p');
+                        movieReleaseDate.classList.add('card-text');
                         movieReleaseDate.textContent = `Año de lanzamiento: ${movie.release_date}`;
-                        movieDetails.appendChild(movieTitle);
-                        movieDetails.appendChild(movieReleaseDate);
-                        movieCard.appendChild(movieDetails);
+                        cardBody.appendChild(movieReleaseDate);
 
                         // Botón para ver detalles de la película
                         const viewDetailsButton = document.createElement('button');
                         viewDetailsButton.classList.add('btn', 'btn-primary', 'view-details-button');
                         viewDetailsButton.textContent = 'Ver detalles';
                         viewDetailsButton.setAttribute('data-movie-id', movie.id); // Establecer el ID de la película como atributo personalizado
-                        movieCard.appendChild(viewDetailsButton);
+                        cardBody.appendChild(viewDetailsButton);
+
+                        movieCard.appendChild(cardBody);
 
                         // Agregar la tarjeta de película al contenedor
                         movieContainer.appendChild(movieCard);
-                    });
 
-                    // Agregar eventos de clic para los botones "Ver detalles"
-                    const viewDetailsButtons = document.querySelectorAll('.view-details-button');
-                    viewDetailsButtons.forEach(button => {
-                        button.addEventListener('click', () => {
-                            const movieId = button.dataset.movieId;
+                        // Agregar evento de clic para el botón "Ver detalles" dentro de la tarjeta
+                        viewDetailsButton.addEventListener('click', () => {
+                            const movieId = viewDetailsButton.dataset.movieId;
                             viewMovieDetails(movieId);
                         });
                     });
@@ -112,13 +113,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         // Agregar la tarjeta de película al contenedor
                         movieContainer.appendChild(movieCard);
-                    });
 
-                    // Agregar eventos de clic para los botones "Ver detalles"
-                    const viewDetailsButtons = document.querySelectorAll('.view-details-button');
-                    viewDetailsButtons.forEach(button => {
-                        button.addEventListener('click', () => {
-                            const movieId = button.dataset.movieId;
+                        // Agregar evento de clic para el botón "Ver detalles" dentro de la tarjeta
+                        viewDetailsButton.addEventListener('click', () => {
+                            const movieId = viewDetailsButton.dataset.movieId;
                             viewMovieDetails(movieId);
                         });
                     });
@@ -139,31 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Agregar evento de clic para el botón "Buscar"
     const searchButton = document.getElementById('search-button');
     searchButton.addEventListener('click', searchMovies);
-
-    // Configurar eventos de clic para los botones "Ver detalles" y opciones de filtro
-    function setupViewDetailsButtons() {
-        const viewDetailsButtons = document.querySelectorAll('.view-details-button');
-        viewDetailsButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const movieId = button.dataset.movieId;
-                viewMovieDetails(movieId);
-            });
-        });
-    }
-
-    function setupFilterItems() {
-        const filterItems = document.querySelectorAll('.filter-item');
-        filterItems.forEach(item => {
-            item.addEventListener('click', () => {
-                const category = item.dataset.category;
-                getMoviesByCategory(category);
-            });
-        });
-    }
-
-    setupViewDetailsButtons();
-    setupFilterItems();
-
+    
     // Obtener películas populares al cargar la página por defecto
     getMoviesByCategory('popular');
 });
