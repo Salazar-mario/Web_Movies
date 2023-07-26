@@ -57,7 +57,7 @@ body {
 
 /* Estilo para las tarjetas de película */
 .movie-card {
-    width: calc(33.333333% - 100px);
+    width: calc(33.333333% - 80px);
     /* Ancho de cada card, ocupando 33.33% del espacio disponible en la fila */
     margin: 10px;
     /* Espacio entre las cards */

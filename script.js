@@ -43,6 +43,26 @@ document.addEventListener('DOMContentLoaded', () => {
                         viewDetailsButton.setAttribute('data-movie-id', movie.id); // Establecer el ID de la película como atributo personalizado
                         cardBody.appendChild(viewDetailsButton);
 
+                        // Agregar estrellas de valoración
+                        const movieRating = document.createElement('div');
+                        movieRating.classList.add('movie-rating');
+
+                        const voteAverage = movie.vote_average;
+                        const starsTotal = 5;
+                        const rating = Math.round(voteAverage / 2);
+
+                        for (let i = 1; i <= starsTotal; i++) {
+                            const star = document.createElement('i');
+                            if (i <= rating) {
+                                star.classList.add('fas', 'fa-star');
+                            } else {
+                                star.classList.add('far', 'fa-star');
+                            }
+                            movieRating.appendChild(star);
+                        }
+
+                        cardBody.appendChild(movieRating);
+
                         movieCard.appendChild(cardBody);
 
                         // Agregar la tarjeta de película al contenedor
@@ -68,7 +88,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const searchInput = document.getElementById('search-input');
         const searchTerm = searchInput.value;
 
-        // Verificar que se haya ingresado un término de búsqueda
         if (searchTerm.trim() === '') {
             alert('Por favor, ingrese un término de búsqueda.');
             return;
@@ -111,6 +130,26 @@ document.addEventListener('DOMContentLoaded', () => {
                         viewDetailsButton.setAttribute('data-movie-id', movie.id); // Establecer el ID de la película como atributo personalizado
                         movieCard.appendChild(viewDetailsButton);
 
+                        // Agregar estrellas de valoración
+                        const movieRating = document.createElement('div');
+                        movieRating.classList.add('movie-rating');
+
+                        const voteAverage = movie.vote_average;
+                        const starsTotal = 5;
+                        const rating = Math.round(voteAverage / 2);
+
+                        for (let i = 1; i <= starsTotal; i++) {
+                            const star = document.createElement('i');
+                            if (i <= rating) {
+                                star.classList.add('fas', 'fa-star');
+                            } else {
+                                star.classList.add('far', 'fa-star');
+                            }
+                            movieRating.appendChild(star);
+                        }
+
+                        movieCard.appendChild(movieRating);
+
                         // Agregar la tarjeta de película al contenedor
                         movieContainer.appendChild(movieCard);
 
@@ -129,15 +168,12 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Función para redirigir a la página de detalle de la película
     function viewMovieDetails(movieId) {
         window.location.assign(`/detalle.html?movieId=${movieId}`);
     }
 
-    // Agregar evento de clic para el botón "Buscar"
     const searchButton = document.getElementById('search-button');
     searchButton.addEventListener('click', searchMovies);
     
-    // Obtener películas populares al cargar la página por defecto
     getMoviesByCategory('popular');
 });
