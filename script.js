@@ -1,31 +1,27 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const apiKey = '5ee161198ef9e0a3c6d9fc3b1ccb8cd3';
-    const movieContainer = document.getElementById('movies-list');
-    const genreMap = {}; // Objeto para almacenar los géneros de películas
+const apiKey = '5ee161198ef9e0a3c6d9fc3b1ccb8cd3'; // Reemplaza 'TU_API_KEY' con tu clave de API
 
-    // Obtener lista de géneros de películas
+document.addEventListener('DOMContentLoaded', () => {
+    const movieContainer = document.getElementById('movies-list');
+    const genreMap = {};
+
     fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=es`)
         .then(response => response.json())
         .then(data => {
-            // Crear un mapa de géneros donde la clave es el ID del género y el valor es el nombre del género
             data.genres.forEach(genre => {
                 genreMap[genre.id] = genre.name;
             });
-
-            // Obtener películas populares al cargar la página por defecto
             getMoviesByCategory('popular');
         })
         .catch(error => {
             console.error('Error:', error);
         });
 
-    // Función para obtener las películas según la categoría
     function getMoviesByCategory(category) {
-        fetch(`https://api.themoviedb.org/3/movie/${category}?api_key=${apiKey}`)
+        fetch(`https://api.themoviedb.org/3/movie/${category}?api_key=${apiKey}&language=es`)
             .then(response => response.json())
             .then(data => {
                 if (data.results && data.results.length > 0) {
-                    movieContainer.innerHTML = ''; // Limpiamos la lista de películas actual
+                    movieContainer.innerHTML = '';
                     const movies = data.results;
                     movies.forEach(movie => {
                         const movieCard = createMovieCard(movie);
@@ -40,70 +36,41 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Función para realizar la búsqueda de películas
-    function searchMovies() {
-        const searchInput = document.getElementById('search-input');
-        const searchTerm = searchInput.value;
-
-        // Verificar que se haya ingresado un término de búsqueda
-        if (searchTerm.trim() === '') {
-            alert('Por favor, ingrese un término de búsqueda.');
-            return;
-        }
-
-        fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchTerm}`)
-            .then(response => response.json())
-            .then(data => {
-                if (data.results && data.results.length > 0) {
-                    movieContainer.innerHTML = ''; // Limpiamos la lista de películas actual
-                    const movies = data.results;
-                    movies.forEach(movie => {
-                        const movieCard = createMovieCard(movie);
-                        movieContainer.appendChild(movieCard);
-                    });
-                } else {
-                    movieContainer.innerHTML = '<p class="no-results">No se encontraron películas para este término de búsqueda.</p>';
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }
-
-    // Función para crear la tarjeta de película
     function createMovieCard(movie) {
         const movieCard = document.createElement('div');
         movieCard.classList.add('movie-card', 'card', 'm-2'); // Agregar clases 'movie-card', 'card', y 'm-2' para estilizar la card
 
-        // Contenedor de la imagen de la película
+        // Contenedor del póster de la película
+        const movieImageContainer = document.createElement('div');
+        movieImageContainer.classList.add('movie-image-container');
+
+        // Imagen de la película (póster)
         const movieImage = document.createElement('img');
         movieImage.classList.add('card-img-top');
         movieImage.src = `https://image.tmdb.org/t/p/w500${movie.poster_path}`; // Ruta de la imagen
         movieImage.alt = movie.title;
-        movieCard.appendChild(movieImage);
+        movieImageContainer.appendChild(movieImage);
 
-        // Cuerpo de la card
-        const cardBody = document.createElement('div');
-        cardBody.classList.add('card-body');
+        // Contenedor de la información de la película (mostrado al pasar el mouse por encima)
+        const movieInfoContainer = document.createElement('div');
+        movieInfoContainer.classList.add('movie-info-container');
 
-        // Detalles de la película
+        // Información de la película (título, sinopsis, género, valoración)
         const movieTitle = document.createElement('h5');
         movieTitle.classList.add('card-title');
         movieTitle.textContent = movie.title;
-        cardBody.appendChild(movieTitle);
+        movieInfoContainer.appendChild(movieTitle);
 
-        const movieReleaseDate = document.createElement('p');
-        movieReleaseDate.classList.add('card-text');
-        movieReleaseDate.textContent = `Año de lanzamiento: ${movie.release_date}`;
-        cardBody.appendChild(movieReleaseDate);
+        const movieOverview = document.createElement('p');
+        movieOverview.classList.add('movie-overview');
+        movieOverview.textContent = movie.overview;
+        movieInfoContainer.appendChild(movieOverview);
 
-        // Agregar género de la película
         const movieGenres = document.createElement('p');
-        movieGenres.classList.add('card-text');
-        movieGenres.textContent = 'Género: ' + getGenresByIds(movie.genre_ids);
-        cardBody.appendChild(movieGenres);
+        movieGenres.classList.add('movie-genres');
+        movieGenres.textContent = getGenresByIds(movie.genre_ids);
+        movieInfoContainer.appendChild(movieGenres);
 
-        // Agregar estrellas de valoración
         const movieRating = document.createElement('div');
         movieRating.classList.add('movie-rating');
 
@@ -125,83 +92,54 @@ document.addEventListener('DOMContentLoaded', () => {
             movieRating.appendChild(star);
         }
 
-        cardBody.appendChild(movieRating);
+        movieInfoContainer.appendChild(movieRating);
 
-        // Botón para ver detalles de la película
-        const viewDetailsButton = document.createElement('button');
-        viewDetailsButton.classList.add('btn', 'btn-primary', 'view-details-button');
-        viewDetailsButton.textContent = 'Ver detalles';
-        viewDetailsButton.setAttribute('data-movie-id', movie.id); // Establecer el ID de la película como atributo personalizado
-        cardBody.appendChild(viewDetailsButton);
-
-        // Botón para agregar a favoritos
-        const addToFavoritesButton = document.createElement('button');
-        addToFavoritesButton.classList.add('btn', 'btn-danger', 'add-to-favorites-button');
-        addToFavoritesButton.innerHTML = '<i class="heart-icon far fa-heart"></i> Agregar a favoritos';
-        addToFavoritesButton.setAttribute('data-movie-id', movie.id); // Establecer el ID de la película como atributo personalizado
-        cardBody.appendChild(addToFavoritesButton);
-
-        movieCard.appendChild(cardBody);
-
-        // Agregar evento de clic para el botón "Ver detalles" dentro de la tarjeta
-        viewDetailsButton.addEventListener('click', () => {
-            const movieId = viewDetailsButton.getAttribute('data-movie-id');
+        // Agregar evento de clic para la tarjeta de película
+        movieCard.addEventListener('click', () => {
+            const movieId = movie.id;
             viewMovieDetails(movieId);
         });
 
-        // Agregar evento de clic para el botón "Agregar a favoritos" dentro de la tarjeta
-        addToFavoritesButton.addEventListener('click', () => {
-            const movieId = addToFavoritesButton.getAttribute('data-movie-id');
-            toggleFavoriteMovie(movieId);
-
-            // Actualizar el ícono de corazón para reflejar el cambio
-            const heartIcon = addToFavoritesButton.querySelector('.heart-icon');
-            heartIcon.classList.toggle('fas');
-            heartIcon.classList.toggle('far');
-        });
-
-        // Verificar si la película está en favoritos y cambiar el ícono si es necesario
-        const heartIcon = addToFavoritesButton.querySelector('.heart-icon');
-        if (isFavorite(movie.id)) {
-            heartIcon.classList.add('fas');
-        } else {
-            heartIcon.classList.add('far');
-        }
+        // Agregar contenedores al card
+        movieCard.appendChild(movieImageContainer);
+        movieCard.appendChild(movieInfoContainer);
 
         return movieCard;
     }
 
-    // Función para obtener los nombres de géneros a partir de sus IDs
     function getGenresByIds(genreIds) {
         return genreIds.map(id => genreMap[id]).join(', ');
     }
 
-    // Función para redirigir a la página de detalle de la película
     function viewMovieDetails(movieId) {
+        // Cambiar "detalle.html" por la ruta de la página de detalles de la película
         window.location.assign(`/detalle.html?movieId=${movieId}`);
     }
 
-    // Función para agregar o quitar una película de favoritos
-    function toggleFavoriteMovie(movieId) {
-        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-
-        const index = favorites.indexOf(movieId);
-        if (index !== -1) {
-            // Si la película ya está en favoritos, la quitamos
-            favorites.splice(index, 1);
+    // Función para buscar películas por término de búsqueda
+    function searchMovies() {
+        const searchInput = document.getElementById('search-input').value;
+        if (searchInput) {
+            fetch(`https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchInput}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.results && data.results.length > 0) {
+                        movieContainer.innerHTML = '';
+                        const movies = data.results;
+                        movies.forEach(movie => {
+                            const movieCard = createMovieCard(movie);
+                            movieContainer.appendChild(movieCard);
+                        });
+                    } else {
+                        movieContainer.innerHTML = '<p class="no-results">No se encontraron películas con el término de búsqueda proporcionado.</p>';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         } else {
-            // Si la película no está en favoritos, la agregamos
-            favorites.push(movieId);
+            movieContainer.innerHTML = '<p class="no-results">Por favor, ingresa un término de búsqueda.</p>';
         }
-
-        // Guardamos la lista actualizada de favoritos en el almacenamiento local
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-    }
-
-    // Función para verificar si una película está en favoritos
-    function isFavorite(movieId) {
-        const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-        return favorites.includes(movieId);
     }
 
     // Agregar evento de clic para el botón "Buscar"

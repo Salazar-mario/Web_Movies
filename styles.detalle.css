@@ -1,0 +1,28 @@
+/* Estilos personalizados para el diseño de los detalles de la película */
+.movie-details {
+    display: flex;
+    align-items: flex-start;
+}
+
+.movie-image {
+    flex: 0 0 250px;
+    margin-right: 20px;
+}
+
+.movie-image img {
+    width: 100%;
+    height: auto;
+}
+
+.movie-info {
+    flex: 1;
+}
+
+.movie-info ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.movie-info li {
+    margin-bottom: 10px;
+}
