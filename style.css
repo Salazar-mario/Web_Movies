@@ -5,7 +5,10 @@ body {
 }
 
 /* Estilo para el cursor de puntero */
-.list-group-item {
+.list-group-item,
+.genre-item,
+.view-details-button,
+.add-to-favorites-button {
     cursor: pointer;
 }
 
@@ -20,7 +23,6 @@ body {
 }
 
 .genre-item {
-    cursor: pointer;
     margin-right: 10px;
     /* Espacio entre los elementos de género */
 }
@@ -57,8 +59,89 @@ body {
 
 /* Estilo para las tarjetas de película */
 .movie-card {
-    width: calc(33.333333% - 80px);
+    width: calc(33.333333% - 120px);
     /* Ancho de cada card, ocupando 33.33% del espacio disponible en la fila */
     margin: 10px;
     /* Espacio entre las cards */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.movie-card:hover {
+    transform: translateY(-5px);
+}
+
+.movie-genre {
+    font-size: 14px;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #777;
+}
+
+/* Estilos para el año de lanzamiento */
+.movie-release-date {
+    font-size: 12px;
+    color: #888;
+    margin-top: 5px;
+}
+
+/* Animación para las estrellas de valoración */
+.movie-rating .fas,
+.movie-rating .far {
+    transition: color 0.2s ease-in-out;
+}
+
+.movie-rating:hover .fas,
+.movie-rating:hover .far {
+    color: gold;
+}
+
+/* Estilos para los botones */
+.btn {
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 4px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #b92c38;
+    border-color: #b92c38;
+}
+
+
+/* Estilos para pantallas medianas (entre 576px y 767px de ancho) */
+@media (min-width: 576px) and (max-width: 767px) {
+    .movie-card {
+        width: 150px;
+        height: 280px;
+        margin: 5px;
+    }
+
+    /* Otros estilos para pantallas medianas */
+}
+
+/* Estilos para pantallas pequeñas (menos de 576px de ancho) */
+@media (max-width: 575px) {
+    .movie-card {
+        width: 100%;
+        height: auto;
+        margin: 5px;
+    }
+
+    /* Otros estilos para pantallas pequeñas */
 }

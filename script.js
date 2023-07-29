@@ -1,6 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
     const apiKey = '5ee161198ef9e0a3c6d9fc3b1ccb8cd3';
     const movieContainer = document.getElementById('movies-list');
+    const genreMap = {}; // Objeto para almacenar los géneros de películas
+
+    // Obtener lista de géneros de películas
+    fetch(`https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}&language=es`)
+        .then(response => response.json())
+        .then(data => {
+            // Crear un mapa de géneros donde la clave es el ID del género y el valor es el nombre del género
+            data.genres.forEach(genre => {
+                genreMap[genre.id] = genre.name;
+            });
+
+            // Obtener películas populares al cargar la página por defecto
+            getMoviesByCategory('popular');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 
     // Función para obtener las películas según la categoría
     function getMoviesByCategory(category) {
@@ -80,6 +97,12 @@ document.addEventListener('DOMContentLoaded', () => {
         movieReleaseDate.textContent = `Año de lanzamiento: ${movie.release_date}`;
         cardBody.appendChild(movieReleaseDate);
 
+        // Agregar género de la película
+        const movieGenres = document.createElement('p');
+        movieGenres.classList.add('card-text');
+        movieGenres.textContent = 'Género: ' + getGenresByIds(movie.genre_ids);
+        cardBody.appendChild(movieGenres);
+
         // Agregar estrellas de valoración
         const movieRating = document.createElement('div');
         movieRating.classList.add('movie-rating');
@@ -146,6 +169,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         return movieCard;
+    }
+
+    // Función para obtener los nombres de géneros a partir de sus IDs
+    function getGenresByIds(genreIds) {
+        return genreIds.map(id => genreMap[id]).join(', ');
     }
 
     // Función para redirigir a la página de detalle de la película
